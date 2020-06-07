@@ -1,0 +1,90 @@
+header {
+    margin: 0;
+    height: 150px;
+    background-color: rgb(225, 225, 225);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body:not(header) {
+    background-color: rgb(245, 245, 245);
+}
+
+
+/*** Ingresar tareas ***/
+
+.create {
+    padding-top: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+.create input {
+    height: 35px;
+    width: 250px;
+    margin-right: 5px;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.create span {
+    border: 1px solid black;
+}
+
+
+/*** Error ***/
+
+.error {
+    display: none;
+    text-align: center;
+}
+
+.error span {
+    color: #ff0000;
+    font-size: 12px;
+}
+
+
+/*** Tareas agregadas ***/
+
+.tasks {
+    margin-top: 35px;
+    text-align: center;
+}
+
+.task {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.task p {
+    height: 33px;
+    width: 250px;
+    margin: 0 5px 1px 0;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.task button:first-of-type {
+    margin-right: 2.5px;
+}
+
+@media only screen and (min-width: 450px) {
+    .create input,
+    .task p {
+        width: 350px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .create input,
+    .task p {
+        width: 500px;
+    }
+}
