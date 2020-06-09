@@ -5,54 +5,26 @@ document.addEventListener("DOMContentLoaded", () => {
     var task_container = $(".tasks");
     var i = 1;
 
-    function add_task() {
-        if (texto.value == "")
-            $(".error").show();
-        //document.querySelector(".error").style.display = "flex";
-        else {
-            $(".error").hide();
-            //document.querySelector(".error").style.display = "none";
-            var cont = document.createElement("div");
-            cont.setAttribute("class", "task");
-            cont.setAttribute("id", "task" + i);
-            cont.setAttribute("data-id", i);
-            document.querySelector(".tasks").appendChild(cont);
+    var value,
+        values = [],
+        keys = Object.keys(localStorage),
+        a = keys.length;
 
-            var descripcion = document.createElement("p");
-            descripcion.setAttribute("id", "description" + i);
-            descripcion.textContent = texto.value;
-            cont.appendChild(descripcion);
-
-            var button = document.createElement("button");
-            button.setAttribute("id", "update" + i);
-            button.setAttribute("class", "btn btn-warning");
-            button.setAttribute("data-id", i);
-            button.addEventListener("click", () => {
-                var id = button.getAttribute("data-id");
-                edit_task(id);
-            });
-            cont.appendChild(button);
-            var icon = document.createElement("i");
-            icon.setAttribute("class", "fas fa-pen");
-            button.appendChild(icon);
-
-
-            button = document.createElement("button");
-            button.setAttribute("id", "delete" + i);
-            button.setAttribute("class", "btn btn-danger");
-            button.setAttribute("data-id", i);
-            cont.appendChild(button);
-            icon = document.createElement("i");
-            icon.setAttribute("class", "fas fa-trash-alt");
-            button.appendChild(icon);
-            button.addEventListener("click", () => {
-                var id = button.getAttribute("data-id");
-                delete_task(id);
-            });
-
-            i++;
-            document.querySelector("#task-input").value = "";
+        
+    for (var x = 0; x < a; x++){
+        value = localStorage.getItem(keys[x]);
+        if(value != null){
+            values.push(value);
+            localStorage.removeItem(keys[x]);
         }
+    }
+    
+    for (val of values)
+        addToList(val);
+
+    function add_task() {
+        addToList(texto.value);
+        document.querySelector("#task-input").value = "";
     }
 
     function edit_task(id) {
@@ -76,11 +48,56 @@ document.addEventListener("DOMContentLoaded", () => {
         add.textContent = "Add";
         add.addEventListener("click", add_task, true);
         add.removeEventListener("click", confirmUpdate, true);
+
+        localStorage.setItem("task"+id, texto.value);
         texto.value = "";
     }
 
     function delete_task(id) {
         var task = document.querySelector("#task" + id);
+        localStorage.removeItem("task"+id);
         task.remove();
+    }
+
+    function addToList(text){
+        var cont = document.createElement("div");
+        cont.setAttribute("class", "task");
+        cont.setAttribute("id", "task" + i);
+        cont.setAttribute("data-id", i);
+        document.querySelector(".tasks").appendChild(cont);
+
+        var descripcion = document.createElement("p");
+        descripcion.setAttribute("id", "description" + i);
+        descripcion.textContent = text;
+        cont.appendChild(descripcion);
+
+        var button = document.createElement("button");
+        button.setAttribute("id", "update" + i);
+        button.setAttribute("class", "btn btn-warning");
+        button.setAttribute("data-id", i);
+        button.addEventListener("click", () => {
+            var id = button.getAttribute("data-id");
+            edit_task(id);
+        });
+        cont.appendChild(button);
+        var icon = document.createElement("i");
+        icon.setAttribute("class", "fas fa-pen");
+        button.appendChild(icon);
+
+
+        button = document.createElement("button");
+        button.setAttribute("id", "delete" + i);
+        button.setAttribute("class", "btn btn-danger");
+        button.setAttribute("data-id", i);
+        cont.appendChild(button);
+        icon = document.createElement("i");
+        icon.setAttribute("class", "fas fa-trash-alt");
+        button.appendChild(icon);
+        button.addEventListener("click", () => {
+            var id = button.getAttribute("data-id");
+            delete_task(id);
+        });
+        localStorage.setItem("task"+i, text);
+        i++;
     }
 });
